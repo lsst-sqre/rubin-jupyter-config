@@ -1,7 +1,9 @@
 import json
 import logging
 import os
+import random
 import sys
+import time
 from eliot import to_file
 from eliot.stdlib import EliotHandler
 from jupyter_client.localinterfaces import public_ips
@@ -225,6 +227,21 @@ class RubinConfig(metaclass=Singleton):
         #  dependency.
         self.authenticator_class = None
         self.spawner_class = None
+        # Lab settings
+        self.api_token = os.getenv("JUPYTERHUB_API_TOKEN") or ""
+        self.hub_api = os.getenv("JUPYTERHUB_API_URL") or ""
+        self.user = os.getenv("JUPYTERHUB_USER") or ""
+        # Firefly settings
+        self.firefly_html = os.getenv("FIREFLY_HTML") or "slate.html"
+        self.firefly_lab_extension = True
+        self.firefly_url_lab = (os.getenv("fireflyURLLab") or
+                                (self.external_instance_url +
+                                 "/portal/app/"))
+        self.firefly_channel_lab = (os.getenv("fireflyChannelLab") or
+                                    ("ffChan-" + (os.getenv("HOSTNAME")
+                                                  or "") + "-" +
+                                     str(int(time.time())) +
+                                     "%02d" % random.randint(0, 99)))
 
     def create_derived_settings(self):
         """Create further settings from passed-in ones.
@@ -248,6 +265,7 @@ class RubinConfig(metaclass=Singleton):
             if ehu:
                 if ehu.endswith(self.hub_route):
                     self.external_instance_url = ehu[: -len(self.hub_route)]
+        self.hub_headers = {"Authorization": "token {}".format(self.api_token)}
 
     def dump(self):
         """Return dict for pretty printing.
