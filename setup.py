@@ -33,7 +33,7 @@ LONG_DESCRIPTION = local_read("README.md")
 VERSION = get_version("%s/_version.py" % _path)
 AUTHOR = "Adam Thornton"
 AUTHOR_EMAIL = "athornton@lsst.org"
-URL = "https://github.com/sqre-lsst/rubin-jupyter-functions"
+URL = "https://github.com/lsst-sqre/rubin-jupyter-config"
 LICENSE = "MIT"
 
 setuptools.setup(
@@ -57,9 +57,6 @@ setuptools.setup(
         "eliot>=1,<2",
         "eliot-tree>=19,<20",
         "jupyter-client>=6,<7",
-        (
-            "rubin_jupyter_utils.helpers "
-            + "@ git+https://github.com/lsst-sqre/rubin-jupyter-helpers.git"
-        ),
+        "rubin_jupyter_utils.helpers>=0.30.0,<1.0"
     ],
 )

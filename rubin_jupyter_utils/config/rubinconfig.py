@@ -236,9 +236,6 @@ class RubinConfig(metaclass=Singleton):
         # Firefly settings
         self.firefly_html = os.getenv("FIREFLY_HTML") or "slate.html"
         self.firefly_lab_extension = True
-        self.firefly_url_lab = (os.getenv("fireflyURLLab") or
-                                (self.external_instance_url +
-                                 "/portal/app/"))
         self.firefly_channel_lab = (os.getenv("fireflyChannelLab") or
                                     ("ffChan-" + (os.getenv("HOSTNAME")
                                                   or "") + "-" +
@@ -267,6 +264,9 @@ class RubinConfig(metaclass=Singleton):
             if ehu:
                 if ehu.endswith(self.hub_route):
                     self.external_instance_url = ehu[: -len(self.hub_route)]
+        self.firefly_url_lab = (os.getenv("fireflyURLLab") or
+                                ((self.external_instance_url or "") +
+                                 "/portal/app/"))
         self.hub_headers = {"Authorization": "token {}".format(self.api_token)}
 
     def dump(self):
