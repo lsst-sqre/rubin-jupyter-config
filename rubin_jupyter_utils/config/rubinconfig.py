@@ -223,11 +223,16 @@ class RubinConfig(metaclass=Singleton):
         self.proxy_host = os.getenv("PROXY_SERVICE_HOST") or my_ip
         self.proxy_api_port = os.getenv("PROXY_SERVICE_PORT_API") or 8001
         self.session_db_url = os.getenv("SESSION_DB_URL")
-        # Pod multicast (used with SAL)
+        # SAL-specific settings
+        # Pod multicast
         self.enable_multus = str_bool(os.getenv("ENABLE_MULTUS"))
+        # Interface for instrument control
+        self.lab_dds_interface = os.getenv("LSST_DDS_INTERFACE") or "lo"
         # DDS domain (used with SAL)
-        self.lab_dds_domain = os.getenv("LSST_DDS_DOMAIN")
-        # These have to be set post-initialization to avoid a circular
+        self.lab_dds_domain = os.getenv("LSST_DDS_DOMAIN") or "citest"
+        self.lab_dds_partition_prefix = (os.getenv("LSST_DDS_PARTITION_PREFIX")
+                                         or "citest")
+        # these have to be set post-initialization to avoid a circular
         #  dependency.
         self.authenticator_class = None
         self.spawner_class = None
