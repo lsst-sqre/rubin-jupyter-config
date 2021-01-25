@@ -275,6 +275,18 @@ class RubinConfig(metaclass=Singleton):
                                 ((self.external_instance_url or "") +
                                  "/portal/app/"))
         self.hub_headers = {"Authorization": "token {}".format(self.api_token)}
+        self.multus_annotation = None
+        self.multus_init_container_image = None
+        if self.enable_multus:
+            if os.getenv("MULTUS_ANNOTATION"):
+                (k, v) = os.getenv("MULTUS_ANNOTATION").split(':')
+                self.multus_annotation = {k: v}
+            else:
+                self.multus_annotation = {
+                    "k8s.v1.cni.cncf.io/networks": "kube-system/macvlan-conf"}
+            self.multus_init_container_image = (
+                os.getenv("MULTUS_INITCONTAINER_IMAGE") or
+                "lsstit/ddsnet4u:latest")
 
     def dump(self):
         """Return dict for pretty printing.
