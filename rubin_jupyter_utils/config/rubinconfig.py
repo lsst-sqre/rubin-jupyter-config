@@ -95,8 +95,7 @@ class RubinConfig(metaclass=Singleton):
         self.log = make_logger(level=level)
 
     def load_from_environment(self):
-        """Populate attributes from environment variables.
-        """
+        """Populate attributes from environment variables."""
         # We already checked DEBUG in __init__
         # FQDN should uniquely identify an instance
         self.fqdn = os.getenv("FQDN") or "localhost"
@@ -231,8 +230,9 @@ class RubinConfig(metaclass=Singleton):
         self.lab_dds_interface = os.getenv("LSST_DDS_INTERFACE") or "lo"
         # DDS domain (used with SAL)
         self.lab_dds_domain = os.getenv("LSST_DDS_DOMAIN") or "citest"
-        self.lab_dds_partition_prefix = (os.getenv("LSST_DDS_PARTITION_PREFIX")
-                                         or "citest")
+        self.lab_dds_partition_prefix = (
+            os.getenv("LSST_DDS_PARTITION_PREFIX") or "citest"
+        )
         # these have to be set post-initialization to avoid a circular
         #  dependency.
         self.authenticator_class = None
@@ -244,15 +244,16 @@ class RubinConfig(metaclass=Singleton):
         # Firefly settings
         self.firefly_html = os.getenv("FIREFLY_HTML") or "slate.html"
         self.firefly_lab_extension = True
-        self.firefly_channel_lab = (os.getenv("fireflyChannelLab") or
-                                    ("ffChan-" + (os.getenv("HOSTNAME")
-                                                  or "") + "-" +
-                                     str(int(time.time())) +
-                                     "%02d" % random.randint(0, 99)))
+        self.firefly_channel_lab = os.getenv("fireflyChannelLab") or (
+            "ffChan-"
+            + (os.getenv("HOSTNAME") or "")
+            + "-"
+            + str(int(time.time()))
+            + "%02d" % random.randint(0, 99)
+        )
 
     def create_derived_settings(self):
-        """Create further settings from passed-in ones.
-        """
+        """Create further settings from passed-in ones."""
         self.proxy_api_url = "http://{}:{}".format(
             self.proxy_host, self.proxy_api_port
         )
@@ -272,26 +273,27 @@ class RubinConfig(metaclass=Singleton):
             if ehu:
                 if ehu.endswith(self.hub_route):
                     self.external_instance_url = ehu[: -len(self.hub_route)]
-        self.firefly_url_lab = (os.getenv("fireflyURLLab") or
-                                ((self.external_instance_url or "") +
-                                 "/portal/app/"))
+        self.firefly_url_lab = os.getenv("fireflyURLLab") or (
+            (self.external_instance_url or "") + "/portal/app/"
+        )
         self.hub_headers = {"Authorization": "token {}".format(self.api_token)}
         self.multus_annotation = None
         self.multus_init_container_image = None
         if self.enable_multus:
             if os.getenv("MULTUS_ANNOTATION"):
-                (k, v) = os.getenv("MULTUS_ANNOTATION").split(':')
+                (k, v) = os.getenv("MULTUS_ANNOTATION").split(":")
                 self.multus_annotation = {k: v}
             else:
                 self.multus_annotation = {
-                    "k8s.v1.cni.cncf.io/networks": "kube-system/macvlan-conf"}
+                    "k8s.v1.cni.cncf.io/networks": "kube-system/macvlan-conf"
+                }
             self.multus_init_container_image = (
-                os.getenv("MULTUS_INITCONTAINER_IMAGE") or
-                "lsstit/ddsnet4u:latest")
+                os.getenv("MULTUS_INITCONTAINER_IMAGE")
+                or "lsstit/ddsnet4u:latest"
+            )
 
     def dump(self):
-        """Return dict for pretty printing.
-        """
+        """Return dict for pretty printing."""
         myvars = vars(self)
         sanitized = sanitize_dict(
             myvars, ["reaper_password", "session_db_url"]
