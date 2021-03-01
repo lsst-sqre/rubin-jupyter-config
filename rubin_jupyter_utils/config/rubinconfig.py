@@ -176,12 +176,12 @@ class RubinConfig(metaclass=Singleton):
         self.external_workflow_url = os.getenv("EXTERNAL_WORKFLOW_URL")
         self.external_gafaelfawr_url = os.getenv("EXTERNAL_GAFAELFAWR_URL")
         self.auto_repo_urls = os.getenv("AUTO_REPO_URLS")
+        # Pull secret name
+        self.pull_secret_name = os.getenv("PULL_SECRET_NAME", "pull-secret")
         # Prepuller settings
         self.lab_repo_owner = os.getenv("LAB_REPO_OWNER") or "lsstsqre"
         self.lab_repo_name = os.getenv("LAB_REPO_NAME") or "sciplat-lab"
         self.lab_repo_host = os.getenv("LAB_REPO_HOST") or "hub.docker.com"
-        self.lab_repo_username = os.getenv('LAB_REPO_USERNAME', None)
-        self.lab_repo_password = os.getenv('LAB_REPO_PASSWORD', None)
         self.prepuller_namespace = (
             os.getenv("PREPULLER_NAMESPACE") or get_execution_namespace()
         )
@@ -213,6 +213,7 @@ class RubinConfig(metaclass=Singleton):
             "EXTERNAL_FILESERVER_IP"
         ) or os.getenv("FILESERVER_SERVICE_HOST")
         # Reaper settings
+        # These have to stay for Docker Hub
         self.reaper_user = os.getenv("IMAGE_REAPER_USER")
         self.reaper_password = os.getenv("IMAGE_REAPER_PASSWORD")
         # Hub internal settings

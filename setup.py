@@ -57,6 +57,6 @@ setuptools.setup(
         "eliot>=1,<2",
         "eliot-tree>=19,<20",
         "jupyter-client>=6,<7",
-        "rubin_jupyter_utils.helpers>=0.30.0,<1.0"
+        "rubin_jupyter_utils.helpers>=0.31.0,<1.0"
     ],
 )
