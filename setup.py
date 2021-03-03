@@ -18,8 +18,7 @@ def get_version(file, name="__version__"):
 
 
 def local_read(filename):
-    """Convenience function for includes.
-    """
+    """Convenience function for includes."""
     full_filename = os.path.join(
         os.path.abspath(os.path.dirname(__file__)), filename
     )
@@ -57,6 +56,6 @@ setuptools.setup(
         "eliot>=1,<2",
         "eliot-tree>=19,<20",
         "jupyter-client>=6,<7",
-        "rubin_jupyter_utils.helpers>=0.30.0,<1.0"
+        "rubin_jupyter_utils.helpers>=0.31.0,<1.0",
     ],
 )
