@@ -241,6 +241,13 @@ class RubinConfig(metaclass=Singleton):
         self.api_token = os.getenv("JUPYTERHUB_API_TOKEN") or ""
         self.hub_api = os.getenv("JUPYTERHUB_API_URL") or ""
         self.user = os.getenv("JUPYTERHUB_USER") or ""
+        # Butler settings
+        self.butler_s3_endpoint_url=os.getenv("BUTLER_S3_ENDPOINT_URL") or ""
+        self.butler_aws_access_key=os.getenv("BUTLER_AWS_ACCESS_KEY") or ""
+        self.butler_aws_secret_key=os.getenv("BUTLER_AWS_SECRET_KEY") or ""
+        self.butler_pgpassword=os.getenv("BUTLER_PGPASSWORD") or ""
+        # Moneypenny settings
+        self.turn_on_moneypenny=str_bool(os.getenv("TURN_ON_MONEYPENNY"))
         # Firefly settings
         self.firefly_html = os.getenv("FIREFLY_HTML") or "slate.html"
         self.firefly_lab_extension = True
